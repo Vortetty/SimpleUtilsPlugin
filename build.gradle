@@ -1,0 +1,32 @@
+apply plugin: "java"
+
+version '1.0'
+
+sourceCompatibility = 1.8
+
+repositories{
+    mavenCentral()
+    maven{ url 'https://www.jitpack.io' }
+    flatDir {
+        dirs '.'
+    }
+}
+
+ext{
+    //the build number that this plugin is made for
+    mindustryVersion = 'v105'
+}
+
+dependencies{
+    compileOnly "com.github.Anuken.Arc:arc-core:v104"
+    //compileOnly "com.github.Anuken.Mindustry:core:$mindustryVersion"
+    compileOnly ":server"
+    compile "org.ow2.asm:asm:9.0"
+}
+
+jar{
+    archiveFileName = "${project.archivesBaseName}.jar"
+    from{
+        configurations.runtimeClasspath.collect{it.isDirectory() ? it : zipTree(it)}
+    }
+}
